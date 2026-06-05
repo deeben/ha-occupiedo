@@ -1,4 +1,4 @@
-"""Switch platform for Home Not Alone integration."""
+"""Switch platform for Occupiedo integration."""
 from __future__ import annotations
 
 import datetime
@@ -25,7 +25,7 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up the Home Not Alone switch platform."""
+    """Set up the Occupiedo switch platform."""
     _LOGGER.debug("Setting up switch platform for entry %s", entry.title)
     async_add_entities([NotHomeAloneSimulationSwitch(entry)])
 

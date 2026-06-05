@@ -1,6 +1,6 @@
 {
   "domain": "nothomealone",
-  "name": "Home Not Alone",
+  "name": "Occupiedo",
   "codeowners": [],
   "config_flow": true,
   "dependencies": ["sun"],

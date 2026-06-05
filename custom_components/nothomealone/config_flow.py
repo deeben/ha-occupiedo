@@ -1,4 +1,4 @@
-"""Config flow for Home Not Alone integration."""
+"""Config flow for Occupiedo integration."""
 from __future__ import annotations
 
 from typing import Any
@@ -13,7 +13,7 @@ from .const import DOMAIN, CONF_ENTITIES
 
 
 class NotHomeAloneConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for Home Not Alone."""
+    """Handle a config flow for Occupiedo."""
 
     VERSION = 1
 
@@ -51,7 +51,7 @@ class NotHomeAloneConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
 
 class NotHomeAloneOptionsFlowHandler(config_entries.OptionsFlow):
-    """Handle Not Home Alone options flow."""
+    """Handle Occupiedo options flow."""
 
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
         """Initialize options flow."""

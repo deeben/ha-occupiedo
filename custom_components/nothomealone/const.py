@@ -1,4 +1,4 @@
-"""Constants for the Home Not Alone integration."""
+"""Constants for the Occupiedo integration."""
 
 DOMAIN = "nothomealone"
 

@@ -1,4 +1,4 @@
-"""The Home Not Alone integration."""
+"""The Occupiedo integration."""
 from __future__ import annotations
 
 import logging
@@ -14,7 +14,7 @@ PLATFORMS: list[Platform] = [Platform.SWITCH]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up Home Not Alone from a config entry."""
+    """Set up Occupiedo from a config entry."""
     _LOGGER.debug("Setting up config entry %s", entry.title)
 
     # Forward the setup to the switch platform
