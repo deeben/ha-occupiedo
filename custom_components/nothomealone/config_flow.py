@@ -60,7 +60,7 @@ def get_schedule_schema(defaults: dict[str, Any]) -> vol.Schema:
                 selector.SelectSelectorConfig(
                     options=[MODE_SIMPLE, MODE_REPLAY],
                     translation_key="simulation_mode",
-                    mode=selector.SelectSelectorMode.DROPDOWN,
+                    mode="dropdown",
                 )
             ),
             vol.Required(
@@ -81,7 +81,7 @@ def get_schedule_schema(defaults: dict[str, Any]) -> vol.Schema:
                 selector.SelectSelectorConfig(
                     options=[TYPE_FIXED, TYPE_SUN],
                     translation_key="start_type",
-                    mode=selector.SelectSelectorMode.DROPDOWN,
+                    mode="dropdown",
                 )
             ),
             vol.Optional(
@@ -94,7 +94,7 @@ def get_schedule_schema(defaults: dict[str, Any]) -> vol.Schema:
                 selector.SelectSelectorConfig(
                     options=[SUN_SUNSET, SUN_SUNRISE],
                     translation_key="start_sun_event",
-                    mode=selector.SelectSelectorMode.DROPDOWN,
+                    mode="dropdown",
                 )
             ),
             vol.Required(
@@ -111,7 +111,7 @@ def get_schedule_schema(defaults: dict[str, Any]) -> vol.Schema:
                 selector.SelectSelectorConfig(
                     options=[TYPE_FIXED, TYPE_SUN],
                     translation_key="end_type",
-                    mode=selector.SelectSelectorMode.DROPDOWN,
+                    mode="dropdown",
                 )
             ),
             vol.Optional(
@@ -124,7 +124,7 @@ def get_schedule_schema(defaults: dict[str, Any]) -> vol.Schema:
                 selector.SelectSelectorConfig(
                     options=[SUN_SUNSET, SUN_SUNRISE],
                     translation_key="end_sun_event",
-                    mode=selector.SelectSelectorMode.DROPDOWN,
+                    mode="dropdown",
                 )
             ),
             vol.Required(
@@ -143,30 +143,59 @@ def validate_schedule_input(user_input: dict[str, Any]) -> dict[str, str]:
     """Validate schedule settings and return dict of errors."""
     errors: dict[str, str] = {}
 
+    start_type = user_input.get(CONF_START_TYPE)
+    end_type = user_input.get(CONF_END_TYPE)
+
     # Validate start requirements
-    if user_input[CONF_START_TYPE] == TYPE_FIXED and not user_input.get(CONF_START_TIME):
+    if start_type == TYPE_FIXED and not user_input.get(CONF_START_TIME):
         errors[CONF_START_TIME] = "start_time_required"
-    if user_input[CONF_START_TYPE] == TYPE_SUN and not user_input.get(CONF_START_SUN_EVENT):
+    if start_type == TYPE_SUN and not user_input.get(CONF_START_SUN_EVENT):
         errors[CONF_START_SUN_EVENT] = "start_sun_event_required"
 
     # Validate end requirements
-    if user_input[CONF_END_TYPE] == TYPE_FIXED and not user_input.get(CONF_END_TIME):
+    if end_type == TYPE_FIXED and not user_input.get(CONF_END_TIME):
         errors[CONF_END_TIME] = "end_time_required"
-    if user_input[CONF_END_TYPE] == TYPE_SUN and not user_input.get(CONF_END_SUN_EVENT):
+    if end_type == TYPE_SUN and not user_input.get(CONF_END_SUN_EVENT):
         errors[CONF_END_SUN_EVENT] = "end_sun_event_required"
 
     # Validate random range
-    if user_input[CONF_START_RANDOM_MIN] > user_input[CONF_START_RANDOM_MAX]:
-        errors[CONF_START_RANDOM_MIN] = "start_min_greater_than_max"
-    if user_input[CONF_END_RANDOM_MIN] > user_input[CONF_END_RANDOM_MAX]:
-        errors[CONF_END_RANDOM_MIN] = "end_min_greater_than_max"
+    start_min = user_input.get(CONF_START_RANDOM_MIN)
+    start_max = user_input.get(CONF_START_RANDOM_MAX)
+    if start_min is not None and start_max is not None:
+        try:
+            if int(start_min) > int(start_max):
+                errors[CONF_START_RANDOM_MIN] = "start_min_greater_than_max"
+        except (ValueError, TypeError):
+            pass
+
+    end_min = user_input.get(CONF_END_RANDOM_MIN)
+    end_max = user_input.get(CONF_END_RANDOM_MAX)
+    if end_min is not None and end_max is not None:
+        try:
+            if int(end_min) > int(end_max):
+                errors[CONF_END_RANDOM_MIN] = "end_min_greater_than_max"
+        except (ValueError, TypeError):
+            pass
 
     # Validate Replay Mode parameters
-    if user_input[CONF_SIMULATION_MODE] == MODE_REPLAY:
-        if user_input[CONF_REPLAY_DAYS_BACK] <= 0:
-            errors[CONF_REPLAY_DAYS_BACK] = "replay_days_back_invalid"
-        if user_input[CONF_REPLAY_JITTER_MIN] > user_input[CONF_REPLAY_JITTER_MAX]:
-            errors[CONF_REPLAY_JITTER_MIN] = "replay_jitter_min_greater_than_max"
+    sim_mode = user_input.get(CONF_SIMULATION_MODE)
+    if sim_mode == MODE_REPLAY:
+        replay_days = user_input.get(CONF_REPLAY_DAYS_BACK)
+        if replay_days is not None:
+            try:
+                if int(replay_days) <= 0:
+                    errors[CONF_REPLAY_DAYS_BACK] = "replay_days_back_invalid"
+            except (ValueError, TypeError):
+                errors[CONF_REPLAY_DAYS_BACK] = "replay_days_back_invalid"
+                
+        jitter_min = user_input.get(CONF_REPLAY_JITTER_MIN)
+        jitter_max = user_input.get(CONF_REPLAY_JITTER_MAX)
+        if jitter_min is not None and jitter_max is not None:
+            try:
+                if int(jitter_min) > int(jitter_max):
+                    errors[CONF_REPLAY_JITTER_MIN] = "replay_jitter_min_greater_than_max"
+            except (ValueError, TypeError):
+                pass
 
     return errors
 
