@@ -1,0 +1,111 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Setup Presence Profile",
+        "description": "Configure the name and target entities for this presence simulator profile.",
+        "data": {
+          "name": "Profile Name",
+          "entities": "Controlled Entities"
+        }
+      },
+      "schedule": {
+        "title": "Configure Schedule",
+        "description": "Set up the start and end schedule parameters. Offsets are in minutes and can be negative (e.g. -60 for 1 hour before).",
+        "data": {
+          "start_type": "Start Trigger Type",
+          "start_time": "Start Time",
+          "start_sun_event": "Start Sun Event",
+          "start_random_min": "Start Random Offset Min",
+          "start_random_max": "Start Random Offset Max",
+          "end_type": "End Trigger Type",
+          "end_time": "End Time",
+          "end_sun_event": "End Sun Event",
+          "end_random_min": "End Random Offset Min",
+          "end_random_max": "End Random Offset Max",
+          "simulation_mode": "Simulation Mode",
+          "replay_days_back": "Replay Lookback Days",
+          "replay_jitter_min": "Replay Jitter Min (minutes)",
+          "replay_jitter_max": "Replay Jitter Max (minutes)"
+        }
+      }
+    },
+    "error": {
+      "start_time_required": "Start time is required when Fixed Time is selected.",
+      "start_sun_event_required": "Sun event is required when Sunrise/Sunset is selected.",
+      "end_time_required": "End time is required when Fixed Time is selected.",
+      "end_sun_event_required": "Sun event is required when Sunrise/Sunset is selected.",
+      "start_min_greater_than_max": "Start minimum offset cannot be greater than maximum offset.",
+      "end_min_greater_than_max": "End minimum offset cannot be greater than maximum offset.",
+      "replay_days_back_invalid": "Replay lookback days must be a positive integer.",
+      "replay_jitter_min_greater_than_max": "Replay jitter minimum offset cannot be greater than maximum offset."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Configure Simulator",
+        "description": "Modify the entities and schedule parameters for this presence simulator profile.",
+        "data": {
+          "entities": "Controlled Entities",
+          "start_type": "Start Trigger Type",
+          "start_time": "Start Time",
+          "start_sun_event": "Start Sun Event",
+          "start_random_min": "Start Random Offset Min",
+          "start_random_max": "Start Random Offset Max",
+          "end_type": "End Trigger Type",
+          "end_time": "End Time",
+          "end_sun_event": "End Sun Event",
+          "end_random_min": "End Random Offset Min",
+          "end_random_max": "End Random Offset Max",
+          "simulation_mode": "Simulation Mode",
+          "replay_days_back": "Replay Lookback Days",
+          "replay_jitter_min": "Replay Jitter Min (minutes)",
+          "replay_jitter_max": "Replay Jitter Max (minutes)"
+        }
+      }
+    },
+    "error": {
+      "start_time_required": "Start time is required when Fixed Time is selected.",
+      "start_sun_event_required": "Sun event is required when Sunrise/Sunset is selected.",
+      "end_time_required": "End time is required when Fixed Time is selected.",
+      "end_sun_event_required": "Sun event is required when Sunrise/Sunset is selected.",
+      "start_min_greater_than_max": "Start minimum offset cannot be greater than maximum offset.",
+      "end_min_greater_than_max": "End minimum offset cannot be greater than maximum offset.",
+      "replay_days_back_invalid": "Replay lookback days must be a positive integer.",
+      "replay_jitter_min_greater_than_max": "Replay jitter minimum offset cannot be greater than maximum offset."
+    }
+  },
+  "selector": {
+    "start_type": {
+      "options": {
+        "fixed": "Fixed Time",
+        "sun": "Sun Event (Sunrise/Sunset)"
+      }
+    },
+    "end_type": {
+      "options": {
+        "fixed": "Fixed Time",
+        "sun": "Sun Event (Sunrise/Sunset)"
+      }
+    },
+    "start_sun_event": {
+      "options": {
+        "sunrise": "Sunrise",
+        "sunset": "Sunset"
+      }
+    },
+    "end_sun_event": {
+      "options": {
+        "sunrise": "Sunrise",
+        "sunset": "Sunset"
+      }
+    },
+    "simulation_mode": {
+      "options": {
+        "simple": "Simple Mode (All On/Off Together)",
+        "replay": "Replay Mode (Mimic Past Usage)"
+      }
+    }
+  }
+}
